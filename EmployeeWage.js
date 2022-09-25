@@ -9,6 +9,7 @@ const NUM_OF_WORKING_DAYS = 20;
 let totalEmpHrs = 0;
 let totalWorkingDays = 0;
 let empDailyWageArr = new Array(); 
+let totalEmpWage = 0;
 
 function getWorkingHours(empCheck){
 switch(empCheck) {
@@ -26,14 +27,40 @@ while ( totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAY
         let empHrs = getWorkingHours(empCheck);
         totalEmpHrs += empHrs;
         empDailyWageArr.push(calDaliyWage(empHrs));
-        console.log(empDailyWageArr);
+        
 }
-
-let empWage = calDaliyWage(totalEmpHrs);
-console.log("UC6 - Total Days: " + totalWorkingDays + "   Total Emp Hrs: " + totalEmpHrs +  "    Emp Wage: " + empWage);
-
 
 function calDaliyWage(empHrs){
         return empHrs * WAGE_PER_HOUR;
 }
+//Array Helper Function
+function sum(dailyWage){
+        totalEmpWage += dailyWage;
+}
+
+empDailyWageArr.forEach(sum);
+console.log("UC7A - Total Days: " + totalWorkingDays + "Total Hrs: " + totalEmpHrs + " Emp Wage: " + totalEmpWage);
+
+function totalWages(totalWage, dailyWage){
+        return totalWage + dailyWage;
+}
+console.log("UC7 - Emp Wage with reduce: " + empDailyWageArr.reduce(totalWages, 0));
+
+//Array Map helper function
+let dailyCntr = 0;
+function mapDayWithWage(dailyWage){
+        dailyCntr++;
+        return dailyCntr + " = " + dailyWage;
+}
+let mapDayWithWageArr = empDailyWageArr.map(mapDayWithWage);
+console.log("UC7B - Daily Wage Map");
+console.log(mapDayWithWageArr);
+
+function fullTimeWage(dailyWage){
+        return dailyWage.includes("160");
+}
+let fullDayWageArr = mapDayWithWageArr.filter(fullTimeWage);
+console.log("UC7C -Daily Wage Filter When Fulltime Wage Earnes");
+console.log(fullDayWageArr);
+
 
